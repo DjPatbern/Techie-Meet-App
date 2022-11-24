@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { excerpt } from "../Utility";
 import LikeButton from "./LikeButton";
+import {FaBackspace} from "react-icons/fa"
 
 const Trending = ({ blogs, user }) => {
   const customSort = (a, b) => {
@@ -14,10 +15,17 @@ const Trending = ({ blogs, user }) => {
 
   return (
     <>
+          <section className="thread-back">
+          <Link to="/" className="thread-Link" id="trend-back">
+            <FaBackspace />
+          </Link>
+        </section>
 <div className="main-blog" id='trend-div'>
       <div>
+      <span className="trend-span">Trend Table</span>
+
         <div>
-          {blogs.sort(customSort).slice(0, 5)?.map((blog) => (
+          {blogs.sort(customSort).slice(0, 3)?.map((blog) => (
             <div key={blog.id}>
             <section className="blog-item trend" >
               
@@ -30,7 +38,7 @@ const Trending = ({ blogs, user }) => {
                   </span>
                   <div className="pic-des">
 
-                  <div className="desc-trend">{excerpt(blog.description, 18)}</div>
+                  <div className="desc-trend">{excerpt(blog.description, 48)}</div>
                   </div>
 
                 </div>
@@ -40,12 +48,13 @@ const Trending = ({ blogs, user }) => {
               
             </section>
                           <div className="like-category" >
-                              <div className="pe-2 like-length">
+                            {user ? <div className="pe-2 like-length">
                               <p>{blog.likes?.length}&nbsp; </p>
                               {
                               user && <LikeButton id={blog.id} likes={blog.likes} user={user} />
-                            }                            </div>
-                          <div className="category catg-color " id='category'>{blog.category}</div>
+                            }                            </div> : <div className="loginToSee"><em>Login to see Likes</em></div>}
+                              
+                          <span className="category catg-color " id='category'>{blog.category}</span>
                           </div>
             </div>
             

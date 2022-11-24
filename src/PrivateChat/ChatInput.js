@@ -55,25 +55,27 @@ const ChatInput = () => {
         }),
       });
     }
-    setText("");
-    setImage(null);
+
      
-    await updateDoc(doc(db, "userChats", currentUser.uid), {
-      [data.chatId + ".lastMessage"]: {
-        text,
+    await updateDoc(doc(db,"userChats", currentUser.uid), {
+      [data.chatId+".lastMessage"]: {
+        text
       },
-      [data.chatId + ".date"]: serverTimestamp(),
+      [data.chatId+".date"]: serverTimestamp(),
     });
 
     await updateDoc(doc(db, "userChats", data.user.uid), {
-      [data.chatId + ".lastMessage"]: {
+      [data.chatId+".lastMessage"]: {
         text,
       },
-      [data.chatId + ".date"]: serverTimestamp(),
+      [data.chatId+".date"]: serverTimestamp(),
     });
    
-
+    setText("");
+    setImage(null);
   };
+
+  console.log(data.User)
 
   return (
     <div className="chatInput">

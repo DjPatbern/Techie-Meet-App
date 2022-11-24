@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { db, storage } from "../firebase-config";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import TagsInput from 'react-tagsinput'
+import { motion } from "framer-motion";
+// import { Helmet } from "react-helmet-async";
 import 'react-tagsinput/react-tagsinput.css'
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { 
@@ -147,11 +149,21 @@ const CreatePost = ({user}) => {
 
 
   return (
-    <div className="main-create">
-<div className="container-fluid mb-4">
+   <>
+         {/* <Helmet>
+        <title>Create Post - Techie Meet</title>
+        <meta
+          name="description"
+          content="This is the Create page for the Techie Meet App"
+        />
+        <link rel="canonical" href="/create" />
+      </Helmet> */}
+    <motion.div className="main-create" initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
+
+<div className="container-fluid mb-4"  data-aos="fade-down" data-aos-delay="200">
       <div className="container">
         <div className="col-12">
-          <div className="text-center heading py-2">
+          <div className="text-center heading py-2 create">
             {id ? "Update Post" : "Create Post"}
           </div>
         </div>
@@ -168,21 +180,22 @@ const CreatePost = ({user}) => {
                   onChange={handleChange}
                 />
               </div> */}
-              <div className="col-12 py-3">
-                <textarea
-                  className="form-control description-box"
-                  placeholder="Post..."
-                  value={description}
-                  name="description"
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="mb-3">
+
+              <div className="mb-3" style={{textAlign: "center"}}>
                 <input
+                
                   type="file"
                   className="form-control"
                   onChange={(e) => setFile(e.target.files[0])}
                 />
+                {/* <label
+                
+                  htmlFor="file"
+                  onChange={(e) => setFile(e.target.files[0])}
+                >
+                  <MdAddPhotoAlternate />
+                  <span>Add Image</span>
+                </label> */}
               </div>
 
               <div className="col-12 py-3">
@@ -202,7 +215,7 @@ const CreatePost = ({user}) => {
              
 
               <div className="col-12 py-3">
-                <p className="trending">Is it trending post ?</p>
+                <p className="trending">Is it a trending post ?</p>
                 <div className="form-check-inline mx-2">
                   <input
                     type="radio"
@@ -238,6 +251,16 @@ const CreatePost = ({user}) => {
                 />
               </div>
 
+              <div className="col-12 py-3">
+                <textarea
+                  className="form-control description-box"
+                  placeholder="Post..."
+                  value={description}
+                  name="description"
+                  onChange={handleChange}
+                />
+              </div>
+
               {progress === 0 ? null : (
             <div className="progress">
               <div
@@ -254,7 +277,6 @@ const CreatePost = ({user}) => {
                 <button
                   className="btn btn-add"
                   type="submit"
-                  disabled={progress !== null && progress < 100}
                 >
                   {id ? "Update" : "Submit"}
                 </button>
@@ -264,7 +286,8 @@ const CreatePost = ({user}) => {
         </div>
       </div>
     </div>
-  </div>
+  </motion.div>
+   </>
   )
 }
 

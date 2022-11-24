@@ -22,7 +22,7 @@ const ChatMessage = ({ message }) => {
             : data.user.photoURL}
           alt=""
         />
-        <span>{message.date.toDate().toDateString()}</span>
+        {/* <span>{message.date.toDate().toDateString()}</span> */}
       </div>
       <div className="messageContent">
         <p>{message.text}</p>

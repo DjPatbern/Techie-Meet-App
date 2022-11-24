@@ -11,6 +11,10 @@ import { toast } from "react-toastify";
 import { MdAddPhotoAlternate } from "react-icons/md";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
+import { motion } from "framer-motion";
+// import { Helmet } from "react-helmet-async";
+
+
 
 const newUserState = {
   firstName: "",
@@ -112,19 +116,21 @@ const Auth = ({ setUser }) => {
     navigate("/");
   };
 
-  // const handleAuth = (e) => {
-  //     e.preventDefault();
-  //     const displayName = e.target[0].value
-  //     const email = e.target[1].value
-  //     const password = e.target[2].value
-  //     const file = e.target[3].value.files[0]
-  // }
+
 
   return (
-    <div className="main-auth">
-      <div>
-        <span className="logo">Techie Meet</span>
-        <div className="title">Register</div>
+    <>
+          {/* <Helmet>
+        <title>Login - Techie Meet</title>
+        <meta
+          name="description"
+          content="This is the Login page of Techie Meet app, A micro social blog for tech enthusiastics"
+        />
+        <link rel="canonical" href="/login" />
+      </Helmet> */}
+    <motion.div  className="main-auth" initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
+      <div  data-aos="fade-up" data-aos-delay="200">
+        <div className="logo">Techie Meet</div>
         {error && <p className="error">{error}</p>}
         <form onSubmit={handleAuth}>
           {signUp && (
@@ -164,7 +170,7 @@ const Auth = ({ setUser }) => {
                   onChange={(e) => setFile(e.target.files[0])}
                 >
                   <MdAddPhotoAlternate />
-                  <span>Add Avatar</span>
+                  <span style={{cursor: "pointer"}}>Add Profile Picture</span>
                 </label>
               </div>
             </>
@@ -222,7 +228,7 @@ const Auth = ({ setUser }) => {
               {!signUp ? "Sign-in" : "Sign-up"}
             </button>
           </div>
-          <p onClick={forgotPasswordHandler} style={{ cursor: "pointer" }}>
+          <p className="forgetPassword" onClick={forgotPasswordHandler} style={{ cursor: "pointer" }}>
             Forgot Password?
           </p>
           
@@ -265,7 +271,8 @@ const Auth = ({ setUser }) => {
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
+    </>
   );
 };
 

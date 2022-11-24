@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../Context/AuthContext";
+import { ChatContext } from "../Context/ChatContext";
 import { db } from "../firebase-config";
 
 const Search = () => {
@@ -18,6 +19,8 @@ const Search = () => {
   const [user, setUser] = useState(null);
   const [err, setErr] = useState(false);
   const { currentUser } = useContext(AuthContext);
+  const { dispatch } = useContext(ChatContext);
+
 
   const handleSearch = async () => {
     const q = query(collection(db, "users"), where("userName", "==", userName));
@@ -36,11 +39,13 @@ const Search = () => {
     e.code === "Enter" && handleSearch();
   };
 
-  const handleSelect = async () => {
+  const handleSelect = async (u) => {
     const combinedId =
       currentUser.uid > user.uid
         ? currentUser.uid + user.uid
         : user.uid + currentUser.uid;
+
+        dispatch({type:"CHANGE_USER", payload:u})
 
     try {
       const res = await getDoc(doc(db, "chats", combinedId));

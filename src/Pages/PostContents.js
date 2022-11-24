@@ -5,88 +5,93 @@ import { Link, useParams } from "react-router-dom";
 import { db } from "../firebase-config";
 import LikeButton from "../Components/LikeButton";
 import Comment from "../Components/Comment";
+import Loading from "../Components/Loading";
+import { motion } from "framer-motion";
+import {FaBackspace} from "react-icons/fa"
+
+// import { Helmet } from "react-helmet-async";
+
+
+
+
 
 
 const PostContents = ({user}) => {
   const { id } = useParams();
   const [blog, setBlog] = useState(null);
-  // const [blogs, setBlogs] = useState([]);
-  // const [tags, setTags] = useState([]);
+  const [loading, setLoading] = useState(false); //for Loading state while awaiting api call
 
-  // useEffect(() => {
-  //   // const getBlogsData = async () => {
-  //   //   const blogRef = collection(db, "blogs", id);
-  //   //   const blogs = await getDocs(blogRef);
-  //   //   setBlog(blogs.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
-  //     // let tags = [];
-  //     // blogs.docs.map((doc) => tags.push(...doc.get("tags")));
-  //     // let uniqueTags = [...new Set(tags)];
-  //     // setTags(uniqueTags);
-  //   }
-
-  //   // getBlogsData();
-  // }, []);
 
   useEffect(() => {
     const docRef = doc(db, "blogs", id);
     onSnapshot(docRef,(snapshot) =>{
       setBlog({...snapshot.data(),id:snapshot.id})
+      setLoading(true);
     })
   },[id])
 
-  // useEffect(() => {
-  //   id && getBlogDetail();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [id]);
-
-  // const getBlogDetail = async () => {
-  //   const docRef = doc(db, "blogs", id);
-  //   const blogDetail = await getDoc(docRef);
-  //   setBlog(blogDetail.data());
-  // };
 
   return (
     <>
-      <div className="container-fluid pb-4 pt-4 padding main-home">
+              {/* <Helmet>
+        <title>Post - Techie Meet</title>
+        <meta
+          name="description"
+          content="This is the Post page of Techie Meet app, A micro social blog for tech enthusiastics"
+        />
+        <link rel="canonical" href="/post" />
+      </Helmet> */}
+      <motion.div className="container-fluid pb-4 pt-4 padding main-home" initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
+   
         <div className="col-md-8">
-          <section className="thread-back">
-            <Link to="/" className="thread-Link">
-              ←
-            </Link>
-          </section>
-            {
+        
+
+        {
+          loading ?            <section className="thread-back">
+          <Link to="/" className="thread-Link">
+          <FaBackspace />
+          </Link>
+        </section> : ""
+        }
+            { loading ?
               blog && (
                 <>
-                <span className="name-time">
+                <span className="name-time"  data-aos="fade-left" data-aos-delay="200">
             <p className="author">{blog.author}</p> -&nbsp;
             {blog.timestamp.toDate().toDateString()}
           </span>
-          <div className="">
+          <div className=""  data-aos="fade-right" data-aos-delay="200">
             <p className="text-start">{blog.description}</p>
-            <p className="text-start">{blog.id}</p>
 
           </div>
-          <div className="blog-img">
+          <div className="blog-img" >
             {blog?.imgUrl ? <img src={blog.imgUrl} alt={blog.title} /> : ""}
           </div>
           <span className="category catg-color">{blog.category}</span>
-          <div className="d-flex flex-row-reverse">
-        {
-          user && <LikeButton id={id} likes={blog.likes} user={user} />
-        }
-        <div className="pe-2">
-          <p>{blog.likes.length}</p>
+          
 
+        {
+          user ? 
+          <>
+          <div className="d-flex flex-row-reverse like">
+          <LikeButton id={id} likes={blog.likes} user={user} />
+          <div className="pe-2">
+          <p>{blog.likes.length}</p>
+          </div>
         </div>
-        <Comment id={blog.id}  bloguser={user} />
-        </div>
+        <h4 style={{textAlign: "center"}}>Comments</h4>
+        <Comment id={blog.id}  bloguser={user}  />
+          </> :  <div className="loginToSee"><em>Login to see Likes & Comments</em></div> }
+        
+
+        
                 </>
               )
-            }
+            : <Loading />}
           
         </div>
 
-      </div>
+      </motion.div>
     </>
   );
 };

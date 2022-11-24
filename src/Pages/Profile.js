@@ -59,23 +59,42 @@
 
 // export default Profile;
 
-import React from "react";
-import EditProfile from './EditProfile'
-import ShowProfile from './ShowProfile'
+import React,{ useContext, useState } from "react";
+import { motion } from "framer-motion";
+import { AuthContext } from "../Context/AuthContext";
+import { Link } from "react-router-dom";
+import {FaBackspace} from "react-icons/fa"
+
+// import { Helmet } from "react-helmet-async";
 
 
-const Profile = ({user}) => {
-function handleChange(){
 
-}
 
-function handleCllick(){
 
-}
+const Profile = () => {
+const {currentUser} = useContext(AuthContext)
+
+
 
   return (
-    <div className="main-profile">
-      <div>
+<>
+{/* <Helmet>
+        <title>{`${currentUser.displayName} - Techie Meet`}</title>
+        <meta
+          name="description"
+          content={`This is the Profile page for ${currentUser.displayName} of Techie Meet app, A micro social blog for tech enthusiastics`}
+        />
+        <link rel="canonical" href="/profile" />
+      </Helmet> */}
+<motion.div className="main-profile" initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
+<div>
+
+<section className="thread-back">
+          <Link to="/" className="thread-Link" style={{marginLeft: "10px"}}>
+          <FaBackspace />
+          </Link>
+        </section>
+<div className="pro-flex">
         {/* <ShowProfile user={user} />
         <EditProfile />
         <div>Profile Picture</div>
@@ -84,7 +103,7 @@ function handleCllick(){
         <div>Track</div>
         <div>Edit Profile</div>
         <div>Posts</div> */}
-        <input type='file' onChange={handleChange} />
+        {/* <input type='file' onChange={handleChange} />
         <button onClick={handleCllick}>Upload</button>
         <img  src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
               alt="logo" style={{
@@ -92,9 +111,15 @@ function handleCllick(){
                 height: "20px",
                 borderRadius: "50%",
                 marginRight: "7px",
-              }} />
+              }} /> */}
+              <img src={currentUser.photoURL} alt='' data-aos="fade-down" data-aos-delay="100" />
+              <h3 data-aos="fade-up" data-aos-delay="100">{currentUser.displayName}</h3>
       </div>
-    </div>
+      {/* <Blog /> */}
+      {/* <p><em style={{textAlign: "centre"}}>Timeline Coming Soon....</em></p> */}
+</div>
+    </motion.div>
+</>
   );
 };
 
