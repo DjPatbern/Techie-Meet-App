@@ -303,9 +303,9 @@ h2 {
   border: white 1px solid;
 }
 .blog-item {
-  padding: 5%;
+  padding: 3%;
   border-radius: 10px;
-  margin-bottom: 2%;
+  margin-bottom: 1%;
   background-color: #1F2833;
   border: #45A29E 2px solid;
   color: #45A29E;
@@ -358,7 +358,7 @@ h2 {
 }
 .search-bar{
   position: sticky;
-  top: 7.9%;
+  top: 8.4%;
   /* margin-right: -26%; */
   margin-top: -1px;
 }
@@ -443,7 +443,7 @@ h2 {
 }
 
 .pro-flex h3{
-font-size: 100px;
+font-size: 500%;
 margin-top: 10%;
 margin-left: 20px;
 
@@ -699,8 +699,9 @@ margin-left: 20px;
   position: fixed;
   bottom: 0;
 
-  left: 16%;
-  right: 25%;
+  left: 28.5%;
+  right: 35.3%;
+
   
 }
 
@@ -708,12 +709,14 @@ margin-left: 20px;
   margin-bottom: 20%;
 } */
 
-#chatInput{
+/* #chatInput{
   bottom: 2.3%;
-  left: 26.4%;
   right: 35.3%;
+  width: 36%;
+  left: 18.2%;
+  margin: 0 auto;
   
-}
+} */
 
 .chatInput input {
   width: 100%;
@@ -1039,7 +1042,7 @@ margin: 0 auto;
 
   .search-bar{
     position: fixed;
-    top: 10.4%;
+    top: 9.6%;
     margin-left: -1.4%;
 
   
@@ -1168,7 +1171,7 @@ border: none;
 
 .search-bar{
   position: fixed;
-  top: 8.9%;
+  top: 8.5%;
   margin: 0 auto;
   margin-left: -3.4%;
 
@@ -1178,6 +1181,7 @@ border: none;
 
 .general-div{
   width: 95%;
+  margin-top: 2%;
 }
 
 .main-create,
@@ -1311,6 +1315,7 @@ text-align: ;
 
 .seemore{
   margin-bottom: 19%;
+  margin-top: 5%;
 
 }
 .message .messageContent img,

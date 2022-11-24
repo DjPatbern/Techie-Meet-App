@@ -71,7 +71,7 @@ import {FaBackspace} from "react-icons/fa"
 
 
 
-const Profile = () => {
+const Profile = ({user}) => {
 const {currentUser} = useContext(AuthContext)
 
 
@@ -115,6 +115,7 @@ const {currentUser} = useContext(AuthContext)
               <img src={currentUser.photoURL} alt='' data-aos="fade-down" data-aos-delay="100" />
               <h3 data-aos="fade-up" data-aos-delay="100">{currentUser.displayName}</h3>
       </div>
+      {/* <p>{user.stack}</p> */}
       {/* <Blog /> */}
       {/* <p><em style={{textAlign: "centre"}}>Timeline Coming Soon....</em></p> */}
 </div>
