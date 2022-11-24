@@ -69,7 +69,7 @@ const CreatePost = ({user}) => {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
-            toast.info("Image upload to firebase successfully");
+            toast.info("Image uploaded successfully");
             setForm((prev) => ({ ...prev, imgUrl: downloadUrl }));
             setProgress(0);
           });
@@ -122,7 +122,7 @@ const CreatePost = ({user}) => {
             likes:[],
             comments:[]
           });
-          toast.success("Blog created successfully");
+          toast.success("Post created successfully");
           setProgress(0);
         } catch (err) {
           console.log(err);
@@ -135,7 +135,7 @@ const CreatePost = ({user}) => {
             author: user.displayName,
             userId: user.uid,
           });
-          toast.success("Blog updated successfully");
+          toast.success("Post updated successfully");
         } catch (err) {
           console.log(err);
         }
