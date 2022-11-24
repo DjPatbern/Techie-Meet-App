@@ -358,7 +358,7 @@ h2 {
 }
 .search-bar{
   position: sticky;
-  top: 8.4%;
+  top: 8.5%;
   /* margin-right: -26%; */
   margin-top: -1px;
 }
@@ -1248,7 +1248,7 @@ border: none;
   position: fixed;
   bottom: 0%;
   margin-bottom: 0%;
-  left: 2.4%;
+  left: 0%;
   right: 0%;
   width: 95%;
   
@@ -1273,7 +1273,7 @@ text-align: ;
 #chatInput{
   bottom: 0%;
   margin-bottom: 0%;
-  left: 5%;
+  left: 0%;
   width: 90%;
 }
 /* 
