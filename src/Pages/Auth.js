@@ -162,13 +162,27 @@ const Auth = ({ setUser }) => {
         exit={{ opacity: 0 }}
       >
         <div data-aos="fade-up" data-aos-delay="200">
-          <div className="logo" style={{ marginTop: "20px" }}>
+          <div className="logo" >
             Techie Meet
           </div>
           {error && <p className="error">{error}</p>}
           <form onSubmit={handleAuth}>
             {signUp && (
               <>
+                              <div className="col-12 py-3">
+                <select
+                  value={stack}
+                  onChange={onCategoryChange}
+                  className="catg-dropdown"
+                >
+                  <option>Your Stack..</option>
+                  {stackOptions.map((option, index) => (
+                    <option value={option || ""} key={index}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
                 <div className="first-last">
                   <div className="col-6 py-3">
                     <input
@@ -209,20 +223,7 @@ const Auth = ({ setUser }) => {
                     </span>
                   </label>
                 </div>
-                <div className="col-12 py-3">
-                <select
-                  value={stack}
-                  onChange={onCategoryChange}
-                  className="catg-dropdown"
-                >
-                  <option>Your Stack..</option>
-                  {stackOptions.map((option, index) => (
-                    <option value={option || ""} key={index}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </div>
+
               </>
             )}
             <div className="col-12 py-3">
