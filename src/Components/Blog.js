@@ -7,21 +7,28 @@ import { useSearchParams } from "react-router-dom";
 import FontAwesome from "react-fontawesome";
 import { Link } from "react-router-dom";
 import { excerpt } from "../Utility";
-import LikeButton from "../Components/LikeButton";
+import LikeButton from "./LikeButton";
+import Loading from "./Loading";
+import { motion } from "framer-motion";
+// import { Helmet } from "react-helmet-async";
 
-const Blog = ({ user }) => {
+
+
+
+const Home = ({ user,userId }) => {
   const [blogs, setBlogs] = useState([]);
-  const [visible, setVisible] = useState(3);
-  
+  // const [visible, setVisible] = useState(5);
+  const [loading, setLoading] = useState(false); //for Loading state while awaiting api call
+
 
   // const [search,setSearch] = useState([])
   const [searchParams, setSearchParams] = useSearchParams();
 
   const unikId = user?.uid;
 
-  const showMorePost = () => {
-    setVisible((prevValue) => prevValue + 3);
-  };
+  // const showMorePost = () => {
+  //   setVisible((prevValue) => prevValue + 3);
+  // };
 
   const customSort = (a, b) => {
     const dateA = new Date(a.timestamp.toDate());
@@ -41,20 +48,14 @@ const Blog = ({ user }) => {
         });
 
         setBlogs(list);
+        setLoading(true);
       },
       (error) => {
         console.log(error);
       }
     );
 
-    //   setSearch((blogs) => {
-    //     const x = searchParams.get("x");
-    //     if(!x) return true;
-    //     else {
-    //         const body = setBlogs(blogs.toLowerCase());
-    //         return body.includes(x.toLowerCase())
-    //     }
-    // })
+
 
     return () => {
       unsub();
@@ -74,27 +75,38 @@ const Blog = ({ user }) => {
 
   return (
     <>
-      <div className="container-fluid pb-4 pt-4 padding main-home">
+              {/* <Helmet>
+        <title>Home - Techie Meet</title>
+        <meta
+          name="description"
+          content="This is the Home page of Techie Meet app, A micro social blog for tech enthusiastics"
+        />
+        <link rel="canonical" href="/" />
+      </Helmet> */}
+      <motion.div className="container-fluid pb-4 pt-4 padding main-home" initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
         <div className="col-md-8">
-          <input
-            type="text"
-            className="search-bar"
-            placeholder=" Search"
-            value={searchParams.get("x") || ""}
-            onChange={(event) => {
-              const x = event.target.value;
-              if (x) {
-                setSearchParams({ x, y: "true" });
-              } else {
-                setSearchParams({});
-              }
-            }}
-          />
+            {
+              loading ?           <input
+              
+              type="text"
+              className="search-bar"
+              placeholder=" Search..."
+              value={searchParams.get("x") || ""}
+              onChange={(event) => {
+                const x = event.target.value;
+                if (x) {
+                  setSearchParams({ x, y: "true" });
+                } else {
+                  setSearchParams({});
+                }
+              }}
+            /> : ''
+            }
           {/* <Blog blogs={blogs} user={user} handleDelete={handleDelete}  setSearch={setSearch} /> */}
           <div className="main-blog">
             <div>
               <div>
-                {blogs
+                { loading ?  blogs
                   .filter((blog) => {
                     const x = searchParams.get("x");
                     if (!x) return true;
@@ -107,7 +119,7 @@ const Blog = ({ user }) => {
                     }
                   })
                   ?.sort(customSort)
-                  .slice(0, visible)
+                  // .slice(0, visible)
                   .map(
                     ({
                       id,
@@ -120,77 +132,81 @@ const Blog = ({ user }) => {
                       timestamp,
                       likes,
                       comments,
-                    }) => (
+                    } ) => (
                       <>
-                       {unikId && userId === unikId && ( <>
-                        <section className="blog-item" key={id}>
-                     
+                      {userId === unikId &&
+                      <section className="blog-item" key={id} >
                         <div>
                           
-                          <div style={{ float: "right" }}>
-                            <FontAwesome
-                              name="trash"
-                              style={{ margin: "15px", cursor: "pointer" }}
-                              size="1x"
-                              onClick={() => handleDelete(id)}
-                            />
-                            <Link to={`/edit/${id}`}>
+                            <div style={{ float: "right" }}>
                               <FontAwesome
-                                name="edit"
-                                style={{ cursor: "pointer", color: "white" }}
+                                name="trash"
+                                style={{ margin: "15px", cursor: "pointer" }}
                                 size="1x"
+                                onClick={() => handleDelete(id)}
                               />
-                            </Link>
-                          </div>
-                        
-                      </div>
+                              <Link to={`/edit/${id}`}>
+                                <FontAwesome
+                                  name="edit"
+                                  style={{ cursor: "pointer", color: "white" }}
+                                  size="1x"
+                                />
+                              </Link>
+                            </div>
+                          
+                        </div>
 
-                      <Link to={`/post/${id}`} className="blog-snippet">
-                        <div className="blog-infos">
-                          <span className="name-time">
-                            <p className="author">{author}</p> -&nbsp;
-                            <span>{timestamp.toDate().toDateString()}</span>
-                          </span>
-                          <p className="">{excerpt(description, 190)}</p>
-                          <div className="blog-img">
-                            {imgUrl ? <img src={imgUrl} alt={title} /> : ""}
+                        <Link to={`/post/${id}`} className="blog-snippet">
+                          <div className="blog-infos">
+                            <span className="name-time">
+                              <p className="author">{author}</p> -&nbsp;
+                              <span>{timestamp.toDate().toDateString()}</span>
+                            </span>
+                            <p className="">{excerpt(description, 190)}</p>
+                            <div className="blog-img">
+                              {imgUrl ? <img src={imgUrl} alt={title} /> : ""}
+                            </div>
                           </div>
-                        </div>
-                      </Link>
-                      <span className="category catg-color">{category}</span>
-                      <div className="d-flex flex-row-reverse like">
-                        {user && (
-                          <LikeButton id={id} likes={likes} user={user} />
-                        )}
-                        <div className="pe-2">
-                          <p>{likes?.length} </p>
-                        </div>
-                        {comments && comments.length > 0 && (
+                        </Link>
+                        <span className="category catg-color">{category}</span>
+                        <div className="d-flex flex-row-reverse like">
+                          {
+                            user ?
+                          
+<>
+<LikeButton id={id} likes={likes} user={user} />
+                          
                           <div className="pe-2">
-                            <p>{comments?.length} Comments</p>
-                          </div>
-                        )}
-                      </div>
-                        
-                        
-                      </section>
-                      </> )}
+                            <p>{likes?.length} </p>
+                          </div> 
+                          {comments && comments.length > 0 && (
+                            <div className="pe-2">
+                              <p>{comments?.length} Comments</p>
+                            </div>
+                          )} 
+</>
+: <div className="loginToSee"><em>Login to see Likes & Comments</em></div> }
+                        </div>
+                      </section>  }
                       </>
-
+                      
                     )
-                  )}
-<div className="seemore">
-<button onClick={showMorePost} className="btn">
-                  See more
-                </button>
-</div>
+                    
+                  ) : <Loading />}
+{/* {
+  loading ? <div className="seemore">
+  <button onClick={showMorePost} className="btn">
+                    See more
+                  </button>
+  </div> : ''
+} */}
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };
 
-export default Blog;
+export default Home;

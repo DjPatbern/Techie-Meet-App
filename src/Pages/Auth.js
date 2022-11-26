@@ -104,7 +104,7 @@ const Auth = ({ setUser }) => {
       if (password !== confirmPassword) {
         return toast.error("Password don't match");
       }
-      if (firstName && lastName && email && password && userName && stack) {
+      if (firstName && lastName && email && password && userName && stack && file) {
         setLoading(true);
         const { user } = await createUserWithEmailAndPassword(
           auth,
@@ -136,13 +136,17 @@ const Auth = ({ setUser }) => {
               photoURL: downloadURL,
             });
             await setDoc(doc(db, "userChats", user.uid), {});
+            toast.success("Signed In Successfully,")
           });
         });
+       
       } else {
         return toast.error("All fields are mandatory to fill");
       }
     }
     navigate("/");
+    toast.success("WELCOME TO TECHIE MEET,")
+
   };
 
   return (

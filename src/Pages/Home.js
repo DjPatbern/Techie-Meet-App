@@ -24,7 +24,7 @@ import { motion } from "framer-motion";
 
 const Home = ({ user,handleLogout,userId }) => {
   const [blogs, setBlogs] = useState([]);
-  const [visible, setVisible] = useState(10);
+  const [visible, setVisible] = useState(5);
   const [loading, setLoading] = useState(false); //for Loading state while awaiting api call
 
 

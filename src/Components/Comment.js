@@ -96,18 +96,32 @@ const Comment = ({ id, bloguser }) => {
 
 //   const result = Object.entries(comments)
 
-  function handleDeleteComment(comment) {
-   
-      updateDoc(commentRef, {
+  const  handleDeleteComment = async (comment) => {
+    if (window.confirm("Are you sure want to delete this comment ?")){
+      try{
+        await  updateDoc(commentRef, {
           comments:arrayRemove(comment),
       })
-      toast.success("Comment Deleted successfully");
+      toast.success("Comment Deleted successfully")
+      
+      } catch (err) {
+        console.log(err);
+      }
+    }
 
-    
-    
 
   }
 
+  // const handleDelete = async (id) => {
+  //   if (window.confirm("Are you sure wanted to delete that blog ?")) {
+  //     try {
+  //       await deleteDoc(doc(db, "blogs", id));
+  //       toast.success("Blog deleted successfully");
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  // };
 
 
 

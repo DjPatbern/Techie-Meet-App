@@ -154,10 +154,10 @@ function App() {
                 <Hamburger />
               </div>
               <li>
-                <a href="/" className="Link">
+                <Link to="/" className="Link">
                   <AiOutlineHome className="icon" />
                   {showIconText ? "" : <h2>Home</h2>}
-                </a>
+                </Link>
                 <Link to="/generalroom" className="Link">
                   <TiMessages className="icon" />
                   {showIconText ? "" : <h2>Chat</h2>}
@@ -208,11 +208,11 @@ function App() {
               }
             />
             <Route path="/login" element={<Auth setUser={setUser} />} />
-            <Route path="/profile" element={user ?<Profile user={user} /> : <Auth setUser={setUser} />} />
+            <Route path="/profile" element={user ?<Profile user={user} userId={userId} /> : <Auth setUser={setUser} />} />
             {/* <Route path="/chat" element={<Chat />} /> */}
             <Route path="/generalroom" element={user ? <Room /> : <Auth setUser={setUser} />} />
-            <Route path="/trending" element={user ? <Trending blogs={trendBlogs} user={user} /> : <Auth setUser={setUser} />} />
-            <Route path="/fake" element={user ?<Chat user={user} /> : <Auth setUser={setUser} />} />
+            <Route path="/trending" element={user ? <Trending blogs={trendBlogs}  user={user} /> : <Auth setUser={setUser} />} />
+            <Route path="/fake" element={user ?<Chat userId={userId} /> : <Auth setUser={setUser} />} />
             <Route
               path="/forget-password"
               element={<ForgetPassword user={user} />}

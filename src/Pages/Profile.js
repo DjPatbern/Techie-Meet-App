@@ -64,6 +64,7 @@ import { motion } from "framer-motion";
 import { AuthContext } from "../Context/AuthContext";
 import { Link } from "react-router-dom";
 import {FaBackspace} from "react-icons/fa"
+import Blog from "../Components/Blog";
 
 // import { Helmet } from "react-helmet-async";
 
@@ -71,7 +72,7 @@ import {FaBackspace} from "react-icons/fa"
 
 
 
-const Profile = ({user}) => {
+const Profile = ({user, userId}) => {
 const {currentUser} = useContext(AuthContext)
 
 
@@ -116,7 +117,7 @@ const {currentUser} = useContext(AuthContext)
               <h3 data-aos="fade-up" data-aos-delay="100">{currentUser.displayName}</h3>
       </div>
       {/* <p>{user.stack}</p> */}
-      {/* <Blog /> */}
+      <Blog user={user} userId={userId} />
       {/* <p><em style={{textAlign: "centre"}}>Timeline Coming Soon....</em></p> */}
 </div>
     </motion.div>

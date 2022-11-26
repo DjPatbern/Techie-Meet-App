@@ -56,6 +56,8 @@ const Trending = ({ blogs, user }) => {
                               
                           <span className="category catg-color " id='category'>{blog.category}</span>
                           </div>
+
+
             </div>
             
           ))}

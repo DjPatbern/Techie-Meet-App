@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Chat from "../GeneralChat/Chat";
-import { query, collection, orderBy, onSnapshot } from "firebase/firestore";
+import { query, collection, orderBy, onSnapshot, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import SendMessage from "../GeneralChat/SendMessage";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 // import { Helmet } from "react-helmet-async";
 
 
@@ -36,13 +37,19 @@ const Room = () => {
     };
   }, []);
 
-  //   const customSort = (a, b) => {
-  //   const dateA = new Date(a.timestamp.toDate());
-  //   const dateB = new Date(b.timestamp.toDate());
-  //   if (dateA < dateB) return 1;
-  //   else if (dateA > dateB) return -1;
-  //   return 0;
-  // };
+
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure want to delete this chat ?")) {
+      try {
+        await deleteDoc(doc(db, "generalroom", id));
+        toast.success("Chat deleted successfully");
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
+
 
 
 
@@ -65,7 +72,7 @@ const Room = () => {
         <main>
           {messages &&
             messages.sort((a,b)=>a.timestamp - b.timestamp).map((message) => (
-              <Chat key={message.id} message={message}  />
+              <Chat key={message.id} message={message} handleDelete={handleDelete}  />
             ))}
         </main>
        <SendMessage />

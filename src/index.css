@@ -637,6 +637,9 @@ margin-left: 20px;
   color: wheat;
   margin-bottom: -10px;
   text-align: left;
+  /* display: flex;
+  justify-content: space-between; */
+
 }
 
 
